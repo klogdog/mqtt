@@ -28,8 +28,8 @@ def on_message(client, userdata, msg):
     
     measurements = msg.payload
     topic = msg.topic
-    temperature = int(measurements.split("/")[0])
-    humidity = int(measurements.split("/")[1])
+    temperature = float(measurements.split("/")[0])
+    humidity = float(measurements.split("/")[1])
     location = topic.split("/")[1]
     sensortype = topic.split("/")[2]
     json_body = [
@@ -57,6 +57,12 @@ client.on_message = on_message
 
 
 client.connect(mqttServer, 1883, 60)
+
+# Blocking call that processes network traffic, dispatches callbacks and
+# handles reconnecting.
+# Other loop*() functions are available that give a threaded interface and a
+# manual interface.
+client.loop_forever()
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.

@@ -7,13 +7,13 @@ SHT3X sht30(0x45);
 
 unsigned long previousMillis = 0; 
 const long interval = 2000; 
-const char* ssid = "yourwifi";
-const char* password = "yourpass";
+const char* ssid = "ssid";
+const char* password = "wifipass";
 float humidity, temp_f;
-const char* mqtt_server = "api.iostash.io";
-const char* mqtt_username = "yourusername";
-const char* mqtt_password = "yourpass";
-const char* mqtt_topic = "/yourusername/yourdevice";
+const char* mqtt_server = "serveraddress";
+const char* mqtt_username = "mqtt username";
+const char* mqtt_password = "mqtt password";
+const char* mqtt_topic = "topics";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -103,7 +103,7 @@ void loop() {
   }
   client.loop();
   getTemperature();
-  dataString = String("{\"temperature\":") + temp_f + String(",\"humidity\":") + humidity + String("}");
+  dataString =  temp_f + String("/")+ humidity;
   dataString.toCharArray(charBuf, 150);
   Serial.println(charBuf);
   client.publish(mqtt_topic, charBuf );

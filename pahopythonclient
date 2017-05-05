@@ -1,3 +1,18 @@
+import paho.mqtt.client as mqtt
+from influxdb import InfluxDBClient
+
+
+
+mqttServer = "mqttServer"
+mqttUsername = "mqttUsername"
+mqttPassword = "mqttPassword"
+mqttTopic = "mqttTopic"
+mqttClientID = "mqttClientID"
+
+influxDBserver = "influxDBserver"
+influxDBusername = "influxDBusername" #use root as default
+influxDBpassword = "influxDBpassword" #use root as default
+influxDatabase = "influxDatabase"
 
 
 # The callback for when the client receives a CONNACK response from the server.

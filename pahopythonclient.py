@@ -4,12 +4,16 @@ from influxdb import InfluxDBClient
 
 
 mqttServer = "mqttServer"
+mqttPort = "mqttPort" #use 1883 as default
+mqttKeepAlive = "mqttKeepAliveTime" #use 60 as default
 mqttUsername = "mqttUsername"
 mqttPassword = "mqttPassword"
 mqttTopic = "mqttTopic"
 mqttClientID = "mqttClientID"
 
+
 influxDBserver = "influxDBserver"
+influxDBport = "influxDBport" #use 8086 as default
 influxDBusername = "influxDBusername" #use root as default
 influxDBpassword = "influxDBpassword" #use root as default
 influxDatabase = "influxDatabase"
@@ -49,14 +53,14 @@ def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
     print json_body
 
-influx_client = InfluxDBClient(influxDBserver, 8086, influxDBusername , influxDBpassword , influxDatabase)
+influx_client = InfluxDBClient(influxDBserver, influxDBport, influxDBusername , influxDBpassword , influxDatabase)
 client = mqtt.Client()
 client.username_pw_set(mqttUsername,mqttPassword)
 client.on_connect = on_connect
 client.on_message = on_message
 
 
-client.connect(mqttServer, 1883, 60)
+client.connect(mqttServer, mqttPort, mqttKeepAlive)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.

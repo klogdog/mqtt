@@ -58,9 +58,7 @@ wget https://repos.influxdata.com/influxdb.key
 sudo apt-key add inlfluxdb.key
 sudo apt-get update
 sudo apt-get install influxdb
-sudo crontab -e
-#add line at bottom and save
-@reboot sudo /usr/bin/influxd
+
 
 
 #Install Grafana and configure it to autostart
@@ -75,3 +73,9 @@ sudo apt-get install python-pip
 sudo pip install paho-mqtt
 sudo pip install influxdb
 
+#scheduling
+sudo crontab -e
+#add line at bottom and save
+@reboot sudo /usr/bin/influxd
+@reboot sudo /usr/sbin/mosquitto
+@reboot sudo /home/ubunutu/mqttinfluxpaho.py

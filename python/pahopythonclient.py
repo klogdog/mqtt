@@ -60,7 +60,6 @@ def on_message(client, userdata, msg):
     topic = msg.topic
     json_body = json_constructor(topic,measurement)
     json_body = [json_body]
-    print json_body
     influx_client.write_points(json_body)
 
 influx_client = InfluxDBClient(influxDBserver, influxDBport, influxDBusername , influxDBpassword , influxDatabase)

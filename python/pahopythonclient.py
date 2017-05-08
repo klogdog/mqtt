@@ -23,27 +23,27 @@ influxDBusername = "influxDBusername" #use root as default
 influxDBpassword = "influxDBpassword" #use root as default
 influxDatabase = "influxDatabase"
 
-
-
-def json_constructor(topic, measurement):
-    fields = "{"
-    topic = topic
-    measurement = measurement
+def json_constructor(topic,measurement):
+    dataHolder = {}
+    keys = []
+    values = []
+    topic = topic 
+    measurement = measurement 
     sensortype = topic.split("/")[1]
     location = topic.split("/")[2]
     splitTopic = topic.split("/")[3]
     splitMeasurementType = splitTopic.split(",")
     splitMeasurement = measurement.split("/")
+    dataHolder["measurement"] = sensortype
+    dataHolder["tags"] = {'location': location}
     for i in range (0,len(splitMeasurementType)):
        measurementTypeHolder = splitMeasurementType[i]
        measurementHolder = splitMeasurement[i]
-       fields = fields + measurementTypeHolder + ":" + measurementHolder + ","
-
-    fields = fields[:-1]
-    fields = fields + "}"
-    json_con = "[" + "{" + "measurement" + ":" + sensortype + "," + "tags" + ":" + "{" + "location" + ":" + location + "}" + "," +  "fields" + ":" + fields + "}" + "]"
-    return json_con
-
+       keys.append(measurementTypeHolder)
+       values.append(measurementHolder)
+    fields = dict(zip(keys,values))
+    dataHolder["fields"] = fields
+    return dataHolder
 
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -59,9 +59,9 @@ def on_message(client, userdata, msg):
     measurement = msg.payload
     topic = msg.topic
     json_body = json_constructor(topic,measurement)
+    json_body = [json_body]
+    print json_body
     influx_client.write_points(json_body)
-
-
 
 influx_client = InfluxDBClient(influxDBserver, influxDBport, influxDBusername , influxDBpassword , influxDatabase)
 client = mqtt.Client()

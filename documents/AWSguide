@@ -1,16 +1,52 @@
 Launch an EC2 or lightsail instance with ubuntu 16.04 LTS as the OS
 
 open a terminal 
+
+
+
+
 #updates and upgrades all packages for Ubuntu
 sudo apt-get update
 sudo apt-get upgrade 
 
-# install mosquitto
-sudo apt-get install mosquitto 
-#alternatively you could just use apt-get install mosquitto
+sudo –i
+passwd ubuntu
+su ubuntu
+cd
 
 
-#Create a influxdb package list, update packages, and install influxdb
+
+# install mosquitto and configure mosquitto
+sudo apt-get install mosquitto mosquitto-clients
+cd /etc/mosquitto/conf.d/
+sudo touch mosquitto.conf
+sudo vim mosquitto.conf
+i
+#add these lines
+user mosquitto
+max_queued_messages 200
+message_size_limit 0
+allow_zero_length_clientid true
+allow_duplicate_messages false
+ 
+listener 1883
+autosave_interval 900
+autosave_on_changes false
+persistence true
+persistence_file mosquitto.db
+allow_anonymous false
+password_file /etc/mosquitto/passwd
+press esc
+:wq
+
+cd /etc/mosquitto 
+sudo touch passwd
+sudo mosquitto_passwd passwd USERNAME
+enter password
+enter again
+
+
+#Create a influxdb package list, update packages, install influxDB and configure to autostart
 sudo touch /etc/apt/sources.list.d/influxdb.list
 sudo vim /etc/apt/sources.listl.d/influxdb.list
 i
@@ -22,11 +58,16 @@ wget https://repos.influxdata.com/influxdb.key
 sudo apt-key add inlfluxdb.key
 sudo apt-get update
 sudo apt-get install influxdb
+sudo crontab -e
+#add line at bottom and save
+@reboot sudo /usr/bin/influxd
 
-#Install Grafana
+
+#Install Grafana and configure it to autostart
 wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.2.0_amd64.deb
 sudo apt-get install -y adduser libfontconfig
 sudo dpkg -i grafana_4.2.0_amd64.deb
+sudo systemctl enable grafana-server.service
 
 #install python and packages
 sudo apt-get install python

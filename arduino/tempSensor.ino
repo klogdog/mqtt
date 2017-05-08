@@ -7,13 +7,13 @@ SHT3X sht30(0x45);
 
 unsigned long previousMillis = 0; 
 const long interval = 2000; 
-const char* ssid = "ssid";
-const char* password = "wifipass";
+const char* ssid = "SSID";
+const char* password = "WIFIPASSWORD";
 float humidity, temp_f;
-const char* mqtt_server = "serveraddress";
-const char* mqtt_username = "mqtt username";
-const char* mqtt_password = "mqtt password";
-const char* mqtt_topic = "topics";
+const char* mqtt_server = "mqtt_server";
+const char* mqtt_username = "mqtt_username";
+const char* mqtt_password = "mqtt_password";
+const char* mqtt_topic = "sensors/environmental/location/temperature,humidity";
 
 WiFiClient espClient;
 PubSubClient client(espClient);

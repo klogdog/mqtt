@@ -3,8 +3,8 @@ from influxdb import InfluxDBClient
 
 
 
-mqttServer = "mqttServer"
-mqttPort = "mqttPort" #use 1883 as default
+mqttServer = "mqttServer" #default is localhost
+mqttPort = 60 #use 1883 as default
 mqttKeepAlive = "mqttKeepAliveTime" #use 60 as default
 mqttUsername = "mqttUsername"
 mqttPassword = "mqttPassword"
@@ -12,7 +12,7 @@ mqttTopic = "mqttTopic"
 mqttClientID = "mqttClientID"
 
 
-influxDBserver = "influxDBserver"
+influxDBserver = "influxDBserver" #default is localhost
 influxDBport = "influxDBport" #use 8086 as default
 influxDBusername = "influxDBusername" #use root as default
 influxDBpassword = "influxDBpassword" #use root as default

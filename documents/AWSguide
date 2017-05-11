@@ -78,7 +78,7 @@ sudo crontab -e
 #add line at bottom and save
 @reboot sudo /usr/bin/influxd
 @reboot sudo /usr/sbin/mosquitto
-@reboot sudo /home/ubunutu/mqttinfluxpaho.py
+@reboot sudo python /home/ubunutu/mqttinfluxpaho.py
 
 #ports
 

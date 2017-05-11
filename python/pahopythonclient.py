@@ -1,27 +1,23 @@
-#for submitting data to influx db format is measurement, tags{tags}, fields{fields} 
-#for topic format coming out of the microcontroller should be sensors/sensortype/location/measurementtype1,measurementtype2,measurementtypeN 
-#for data format should be datafrom_measurementtype1/datafrom_measurementtype2/datafrom_measurementtypeN
-
-
 import paho.mqtt.client as mqtt
 from influxdb import InfluxDBClient
 
 
 
-mqttServer = "mqttServer"
-mqttPort = "mqttPort" #use 1883 as default
-mqttKeepAlive = "mqttKeepAliveTime" #use 60 as default
-mqttUsername = "mqttUsername"
-mqttPassword = "mqttPassword"
-mqttTopic = "mqttTopic"
-mqttClientID = "mqttClientID"
+mqttServer = "localhost" #use localhost as default
+mqttPort = "1883" #use 1883 as default
+mqttKeepAlive = 60 #use 60 as default
+mqttUsername = "user"
+mqttPassword = "password"
+mqttTopic = "topic"
+#mqttClientID = "mqttClientID"
 
 
-influxDBserver = "influxDBserver"
-influxDBport = "influxDBport" #use 8086 as default
-influxDBusername = "influxDBusername" #use root as default
-influxDBpassword = "influxDBpassword" #use root as default
-influxDatabase = "influxDatabase"
+
+influxDBserver = "localhost" #use localhost as default
+influxDBport = "8086" #use 8086 as default
+influxDBusername = "root" #use root as default
+influxDBpassword = "root" #use root as default
+influxDatabase = "sensorData"
 
 def json_constructor(topic,measurement):
     dataHolder = {}
@@ -48,7 +44,7 @@ def json_constructor(topic,measurement):
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    #print("Connected with result code "+str(rc))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
@@ -60,6 +56,7 @@ def on_message(client, userdata, msg):
     topic = msg.topic
     json_body = json_constructor(topic,measurement)
     json_body = [json_body]
+    #print json_body
     influx_client.write_points(json_body)
 
 influx_client = InfluxDBClient(influxDBserver, influxDBport, influxDBusername , influxDBpassword , influxDatabase)

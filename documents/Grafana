@@ -2,3 +2,5 @@ default config
 port 3000
 admin
 admin
+Add a data source 
+to add a data source you need to select the influx database created earlier to store the data. 

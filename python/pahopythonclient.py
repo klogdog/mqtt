@@ -38,7 +38,7 @@ def json_constructor(topic,measurement):
     splitMeasurement = measurement.split("/")
     dataHolder["measurement"] = sensortype
     dataHolder["tags"] = {'location': location}
-    # this loop takes the split topics and arranges them into key arrays and value arrays
+    # this loop takes the split topics and arranges them into a key array and a value array
     # this allows an arbitrary set of of measurements to be submitted and transformed dynamically
     for i in range (0,len(splitMeasurementType)):
        measurementTypeHolder = splitMeasurementType[i]

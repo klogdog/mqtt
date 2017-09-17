@@ -1,3 +1,5 @@
+#subscribes to an mqtt client and writes the incoming messages to influxDB dynamically
+
 #for submitting data to influx db format is measurement, tags{tags}, fields{fields} 
 #for topic format coming out of the microcontroller should be sensors/sensortype/location/measurementtype1,measurementtype2,measurementtypeN 
 #for data format should be datafrom_measurementtype1/datafrom_measurementtype2/datafrom_measurementtypeN

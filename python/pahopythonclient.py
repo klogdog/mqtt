@@ -23,13 +23,14 @@ influxDBport = "8086" #use 8086 as default
 influxDBusername = "root" #use root as default
 influxDBpassword = "root" #use root as default
 influxDatabase = "sensorData"
-
+#json_constructor takes the topic and splits it and reforms it into json for influxdb 
 def json_constructor(topic,measurement):
     dataHolder = {}
     keys = []
     values = []
     topic = topic 
     measurement = measurement 
+    #splitting topic into defined components
     sensortype = topic.split("/")[1]
     location = topic.split("/")[2]
     splitTopic = topic.split("/")[3]
@@ -37,6 +38,8 @@ def json_constructor(topic,measurement):
     splitMeasurement = measurement.split("/")
     dataHolder["measurement"] = sensortype
     dataHolder["tags"] = {'location': location}
+    # this loop takes the split topics and arranges them into key arrays and value arrays
+    # this allows an arbitrary set of of measurements to be submitted and transformed dynamically
     for i in range (0,len(splitMeasurementType)):
        measurementTypeHolder = splitMeasurementType[i]
        measurementHolder = splitMeasurement[i]

@@ -27,9 +27,13 @@ influxDBpassword = "root" #use root as default
 influxDatabase = "sensorData"
 #json_constructor takes the topic and splits it and reforms it into json for influxdb 
 def json_constructor(topic,measurement):
+    # an empty dictionary to hold the fields
     dataHolder = {}
+    #an empty list to hold the keys for the dictionary fields
     keys = []
+    #an empty list to hold the values for the dictionary fields
     values = []
+    #passing variables into the function
     topic = topic 
     measurement = measurement 
     #splitting topic into defined components
@@ -40,13 +44,14 @@ def json_constructor(topic,measurement):
     splitMeasurement = measurement.split("/")
     dataHolder["measurement"] = sensortype
     dataHolder["tags"] = {'location': location}
-    # this loop takes the split topics and arranges them into a key array and a value array
+    # this loop takes the split topics and arranges them into a key list and a value list
     # this allows an arbitrary set of of measurements to be submitted and transformed dynamically
     for i in range (0,len(splitMeasurementType)):
        measurementTypeHolder = splitMeasurementType[i]
        measurementHolder = splitMeasurement[i]
        keys.append(measurementTypeHolder)
        values.append(measurementHolder)
+    # zip maps the two lists, keys and values, onto fields    
     fields = dict(zip(keys,values))
     dataHolder["fields"] = fields
     return dataHolder
@@ -60,13 +65,14 @@ def on_connect(client, userdata, flags, rc):
     # reconnect then subscriptions will be renewed.
     client.subscribe(mqttTopic)
 
-# The callback for when a PUBLISH message is received from the server.
+# When a publish message is received the payload of the message is loaded into measurement and the topic is loaded into topic
+#json_body calls json_constructor and passes it topic and measurement. It then receives back the json data. it is then turned into 
+#a valid json object and written to the influx database. 
 def on_message(client, userdata, msg):
     measurement = msg.payload
     topic = msg.topic
     json_body = json_constructor(topic,measurement)
     json_body = [json_body]
-    #print json_body
     influx_client.write_points(json_body)
 
 influx_client = InfluxDBClient(influxDBserver, influxDBport, influxDBusername , influxDBpassword , influxDatabase)

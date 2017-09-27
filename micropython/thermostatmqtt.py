@@ -26,6 +26,7 @@ mqttTopic3 = 'tempset'
 
 
 wifi_connect(wifissid,wifiPassword)
+relayFlag = 0
 heaterFlag = 0
 temperature = b'90'
 setTemperature = b'0'
@@ -33,19 +34,19 @@ setTemperature = b'0'
 
 
 def subscribeCallBack(topic, msg):
-    global heaterFlag
-    global temperature
-    global setTemperature
-    if topic == b'heater':
-        if msg == b'0':
-            heaterFlag = 0
-        if msg == b'1':
-            heaterFlag = 1
-    if topic == b'sensors/environmental/new/temperature,humidity':
-       measurement = msg.split(b'/')
-       temperature = measurement[0]
-    if topic == b'tempset':
-        setTemperature = msg
+  global heaterFlag
+  global temperature
+  global setTemperature
+  if topic == b'heater':
+    if msg == b'0':
+      heaterFlag = 0
+    if msg == b'1':
+      heaterFlag = 1
+  if topic == b'sensors/environmental/new/temperature,humidity':
+    measurement = msg.split(b'/')
+    temperature = measurement[0]
+  if topic == b'tempset':
+    setTemperature = msg
 
 
 
@@ -59,12 +60,18 @@ client.subscribe(mqttTopic1)
 client.subscribe(mqttTopic2)
 client.subscribe(mqttTopic3)
 while True:
-            client.check_msg()
-            if heaterFlag == 1:
-              if temperature < setTemperature:
-               relayPin.value(1)
-              else:
-               relayPin.value(0)
-            if heaterFlag == 0:
-                relayPin.value(0)
-            time.sleep(1)
+  client.check_msg()
+  if heaterFlag == 1:
+    if temperature < setTemperature:
+      if relayFlag == 0:
+        relayPin.value(1)
+        relayFlag = 1
+    else:
+      if relayFlag == 1: 
+        relayPin.value(0)
+        relayFlag = 0   
+  if heaterFlag == 0:
+    if relayFlag == 1:
+      relayPin.value(0)
+      relayFlag = 0
+  time.sleep(1)

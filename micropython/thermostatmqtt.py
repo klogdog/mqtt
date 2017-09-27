@@ -1,4 +1,5 @@
 #First generation working thermostat code 
+# using a d1 mini pro and a songle relay triggered on pin 5 (d1)
 
 from wifi import wifi_connect
 from umqtt.simple import MQTTClient

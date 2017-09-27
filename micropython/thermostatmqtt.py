@@ -31,7 +31,7 @@ setTemperature = b'0'
 
 
 
-def sub_cb(topic, msg):
+def subscribeCallBack(topic, msg):
     global heaterFlag
     global temperature
     global setTemperature
@@ -52,7 +52,7 @@ def sub_cb(topic, msg):
 
 
 client = MQTTClient("123456",mqttServer, port=1883, user= mqttUsername, password= mqttPassword)
-client.set_callback(sub_cb)
+client.set_callback(subscribeCallBack)
 client.connect()
 client.subscribe(mqttTopic1)
 client.subscribe(mqttTopic2)

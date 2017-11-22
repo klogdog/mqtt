@@ -53,25 +53,30 @@ def subscribeCallBack(topic, msg):
 
 
 
-client = MQTTClient("123456",mqttServer, port=1883, user= mqttUsername, password= mqttPassword)
-client.set_callback(subscribeCallBack)
-client.connect()
-client.subscribe(mqttTopic1)
-client.subscribe(mqttTopic2)
-client.subscribe(mqttTopic3)
+try:
+ client = MQTTClient("123456",mqttServer, port=1883, user= mqttUsername, password= mqttPassword)
+ client.set_callback(sub_cb)
+ client.connect()
+ client.subscribe(mqttTopic1)
+ client.subscribe(mqttTopic2)
+ client.subscribe(mqttTopic3)
+except:
+  print("connection error")
+  time.sleep(5)
+  machine.reset()
 while True:
-  client.check_msg()
+  try:
+    client.check_msg()
+  except:
+    print("unhandled exception")
+    time.sleep(5)
+    machine.reset()
   if heaterFlag == 1:
     if temperature < setTemperature:
-      if relayFlag == 0:
-        relayPin.value(1)
-        relayFlag = 1
+      relayPin.value(1)
     else:
-      if relayFlag == 1: 
-        relayPin.value(0)
-        relayFlag = 0   
-  if heaterFlag == 0:
-    if relayFlag == 1:
       relayPin.value(0)
-      relayFlag = 0
+  if heaterFlag == 0:
+    relayPin.value(0)
   time.sleep(1)
+

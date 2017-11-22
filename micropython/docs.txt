@@ -1,0 +1,37 @@
+for d1 mini pro
+esptool.py --port COM6 erase_flash
+esptool.py --port COM6 write_flash -fm dio -fs 32m 0 esp8266-20170926-v1.9.2-121-g9d836fed
+
+Usage
+
+Ampy is made to talk to a MicroPython board over its serial connection. You will need your board connected and any drivers to access it serial port installed. Then for example to list the files on the board run a command like:
+
+ampy --port /dev/tty.SLAB_USBtoUART ls
+You should see a list of files on the board's root directory printed to the terminal. Note that you'll need to change the port parameter to the name or path to the serial port that the MicroPython board is connected to.
+
+For convenience you can set an AMPY_PORT environment variable which will be used if the port parameter is not specified. For example on Linux or OSX:
+
+export AMPY_PORT=/dev/tty.SLAB_USBtoUART
+ampy ls
+Or on Windows (untested) try the SET command:
+
+set AMPY_PORT=COM4
+ampy ls
+Other commands are available, run ampy with --help to see more information:
+
+ampy --help
+Each subcommand has its own help, for example to see help for the ls command run (note you unfortunately must have a board connected and serial port specified):
+
+ampy --port /dev/tty.SLAB_USBtoUART ls --help
+
+Options:
+  -p, --port PORT  Name of serial port for connected board.  [required]
+  -b, --baud BAUD  Baud rate for the serial connection. (default 115200)
+  --help           Show this message and exit.
+
+Commands:
+  get  Retrieve a file from the board.
+  ls   List contents of a directory on the board.
+  put  Put a file on the board.
+  rm   Remove a file from the board.
+  run  Run a script and print its output.

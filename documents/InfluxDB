@@ -1,0 +1,7 @@
+to create a new influx database open a terminal
+type in the following commands
+influx
+CREATE DATABASE sensorData
+
+you can use a database name other than sensorData. Just make sure you use the same
+name for grafana

@@ -65,9 +65,9 @@ def on_connect(client, userdata, flags, rc):
     # reconnect then subscriptions will be renewed.
     client.subscribe(mqttTopic)
 
-# When a publish message is received the payload of the message is loaded into measurement and the topic is loaded into topic
-#json_body calls json_constructor and passes it topic and measurement. It then receives back the json data. it is then turned into 
-#a valid json object and written to the influx database. 
+# When a MQTT published message is received the payload of the MQTT message is written into the variable named measurement and the topic of the MQTT message is written into teh variable named topic
+# json_body calls json_constructor and passes it topic and measurement. json_body is then passed back the json data. The json data is then turned into 
+# a valid json object and written to the influx database. 
 def on_message(client, userdata, msg):
     measurement = msg.payload
     topic = msg.topic

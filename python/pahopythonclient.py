@@ -25,7 +25,7 @@ influxDBport = "8086" #use 8086 as default
 influxDBusername = "root" #use root as default
 influxDBpassword = "root" #use root as default
 influxDatabase = "sensorData"
-#json_constructor takes the topic and splits it and reforms it into json for influxdb 
+#json_constructor takes the MQTT topic data, splits and reforms the data, and then constructs a valid json body formatted for influxdb 
 def json_constructor(topic,measurement):
     # an empty dictionary to hold the fields
     dataHolder = {}

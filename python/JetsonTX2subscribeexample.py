@@ -4,13 +4,13 @@ import paho.mqtt.client as mqtt
 
 
 #edit these to match your settings
-mqttServer = "192.168.1.5" #use localhost as default
+mqttServer = "localhost" #use localhost as default
 mqttPort = "1883" #use 1883 as default
 mqttKeepAlive = 60 #use 60 as default
-mqttUsername = "nvidia"
-mqttPassword = "nvidia"
-mqttTopic = "data"
-mqttClientID = "jetson1"
+mqttUsername = "mqttUsername"
+mqttPassword = "mqttPassword"
+mqttTopic = "mqttTopic"
+mqttClientID = "mqttClientID"
 
 
 

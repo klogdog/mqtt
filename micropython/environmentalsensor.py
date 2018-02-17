@@ -2,8 +2,6 @@ from sht30 import SHT30
 import time
 from wifi import wifi_connect
 from umqtt.simple import MQTTClient
-import machine
-from machine import Pin
 mqttServer = "mqttServer"
 mqttPort = "1883"
 mqttKeepAlive = 60

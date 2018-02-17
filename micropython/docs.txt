@@ -1,6 +1,8 @@
-for d1 mini pro
+for d1 mini pro to flash micropython us this command
 esptool.py --port COM6 erase_flash
 esptool.py --port COM6 write_flash -fm dio -fs 32m 0 esp8266-20170926-v1.9.2-121-g9d836fed
+
+set the port in ampy to microcontrollers port (you can find the correct com port by looking at devices and serial ports in windows or by looking at devices in linux)
 
 Usage
 

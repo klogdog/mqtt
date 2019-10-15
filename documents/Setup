@@ -1,4 +1,4 @@
-Launch an EC2 or lightsail instance with ubuntu 16.04 LTS as the OS
+Launch an instance with ubuntu 18.04 LTS as the OS
 
 open a terminal 
 
@@ -6,11 +6,13 @@ open a terminal
 
 
 #updates and upgrades all packages for Ubuntu
+# This may take a while
 sudo apt-get update
 sudo apt-get upgrade 
 
 sudo –i
-passwd ubuntu
+sudo adduser ubuntu
+usermod -aG sudo username
 su ubuntu
 cd
 
@@ -20,8 +22,8 @@ cd
 sudo apt-get install mosquitto mosquitto-clients
 cd /etc/mosquitto/conf.d/
 sudo touch mosquitto.conf
-sudo vim mosquitto.conf
-i
+sudo nano  mosquitto.conf
+
 #add these lines
 user mosquitto
 max_queued_messages 200
@@ -36,8 +38,8 @@ persistence true
 persistence_file mosquitto.db
 allow_anonymous false
 password_file /etc/mosquitto/passwd
-press esc
-:wq
+
+#write to file
 
 cd /etc/mosquitto 
 sudo touch passwd
@@ -48,13 +50,13 @@ enter again
 
 #Create a influxdb package list, update packages, install influxDB and configure to autostart
 sudo touch /etc/apt/sources.list.d/influxdb.list
-sudo vim /etc/apt/sources.listl.d/influxdb.list
-i
-deb https://repos.influxdata.com/ubuntu xenial stable
-hit escape key
-:wq
+
+sudo nano /etc/apt/sources.listl.d/influxdb.list
+deb https://repos.influxdata.com/ubuntu bionic stable
+#write to file
+
 cd
-wget https://repos.influxdata.com/influxdb.key
+sudo wget https://repos.influxdata.com/influxdb.key
 sudo apt-key add inlfluxdb.key
 sudo apt-get update
 sudo apt-get install influxdb
@@ -62,9 +64,9 @@ sudo apt-get install influxdb
 
 
 #Install Grafana and configure it to autostart
-wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.2.0_amd64.deb
+sudo wget https://dl.grafana.com/oss/release/grafana_6.4.2_amd64.deb
 sudo apt-get install -y adduser libfontconfig
-sudo dpkg -i grafana_4.2.0_amd64.deb
+sudo dpkg -i grafana_6.4.2_amd64.deb
 sudo systemctl enable grafana-server.service
 
 #install python and packages
@@ -72,6 +74,15 @@ sudo apt-get install python
 sudo apt-get install python-pip
 sudo pip install paho-mqtt
 sudo pip install influxdb
+
+#create the mqttinfluxpaho.py file
+use the file in the python folder (pahopythonclient.py)
+add your username and password and set your topic up
+
+cd /home/ubuntu/
+touch mqttinfluxpaho.py
+sudo nano mqttinfluxpaho.py
+paste in the python script contents
 
 #scheduling
 sudo crontab -e

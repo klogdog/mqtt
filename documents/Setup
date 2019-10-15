@@ -91,6 +91,29 @@ sudo crontab -e
 @reboot sudo /usr/sbin/mosquitto
 @reboot sudo python /home/ubunutu/mqttinfluxpaho.py
 
+reboot the instance
+
+#add influxdb database
+influx
+CREATE DATABASE sensor
+
 #ports
 
 open ports 3000, 1883, and any other relevant to your setup
+
+
+#login to grafan using a web browser
+
+ipaddress:3000
+
+username: admin
+password: admin
+
+enter a new password
+
+set your source to influxdb
+type in db name (sensor)
+use basic auth
+default is 
+username: root
+password: root

@@ -55,7 +55,7 @@ def subscribeCallBack(topic, msg):
 
 try:
  client = MQTTClient("123456",mqttServer, port=1883, user= mqttUsername, password= mqttPassword)
- client.set_callback(sub_cb)
+ client.set_callback(subscribeCallBack)
  client.connect()
  client.subscribe(mqttTopic1)
  client.subscribe(mqttTopic2)
